@@ -2,13 +2,17 @@ mritunjaymaurya@Mritunjays-MacBook-Air ~ % curl -i https://jsonplaceholder.typic
 
 HTTP/2 200 
 date: Fri, 14 Aug 2026 06:06:47 GMT
+
 content-type: application/json; charset=utf-8
+```text
 content-length: 292
 access-control-allow-credentials: true
 cache-control: max-age=43200
 etag: W/"124-yiKdLzqO5gfBrJFrcdJ8Yq0LGnU"
 expires: -1
-nel: {"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}
+```
+
+- nel: {"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}
 pragma: no-cache
 report-to: {"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=vm67FVLNHsCgrFgubRa04ooDeMKdgwXS9H3i2IbjuoY%3D\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\u0026ts=1785194657"}],"max_age":3600}
 reporting-endpoints: heroku-nel="https://nel.heroku.com/reports?s=vm67FVLNHsCgrFgubRa04ooDeMKdgwXS9H3i2IbjuoY%3D&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&ts=1785194657"
