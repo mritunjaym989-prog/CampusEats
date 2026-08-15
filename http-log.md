@@ -10,8 +10,6 @@ access-control-allow-credentials: true
 cache-control: max-age=43200
 etag: W/"124-yiKdLzqO5gfBrJFrcdJ8Yq0LGnU"
 expires: -1
-```
-
 - nel: {"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}
 pragma: no-cache
 report-to: {"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=vm67FVLNHsCgrFgubRa04ooDeMKdgwXS9H3i2IbjuoY%3D\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\u0026ts=1785194657"}],"max_age":3600}
@@ -29,7 +27,7 @@ accept-ranges: bytes
 cf-cache-status: HIT
 cf-ray: a2adc688c9226470-BOM
 alt-svc: h3=":443"; ma=86400
-
+```
 {
   "userId": 1,
   "id": 1,
