@@ -1,10 +1,14 @@
-mritunjaymaurya@Mritunjays-MacBook-Air ~ % curl -i https://jsonplaceholder.typicode.com/posts/1
+## HTTP Request Log CampusEats Assignment
 
+# Request 1- Get Post 1
+mritunjaymaurya@Mritunjays-MacBook-Air ~ % 
+curl -i https://jsonplaceholder.typicode.com/posts/1
+# Full Responce
+
+```text
 HTTP/2 200 
 date: Fri, 14 Aug 2026 06:06:47 GMT
-
 content-type: application/json; charset=utf-8
-```text
 content-length: 292
 access-control-allow-credentials: true
 cache-control: max-age=43200
@@ -27,10 +31,15 @@ accept-ranges: bytes
 cf-cache-status: HIT
 cf-ray: a2adc688c9226470-BOM
 alt-svc: h3=":443"; ma=86400
-```
+
 {
   "userId": 1,
   "id": 1,
   "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
   "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-}%                  
+}% 
+```  
+# Annotation 
+
+- Status. 200 OK — The request was successful and the requested post was returned
+- Content-Type: Content-Type: application/json; charset=utf-8 — The response body is JSON data encoded using UTF-8.
