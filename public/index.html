@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CampusEats Menu</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>CampusEats Menu</h1>
+
+      <h2>Available Dishes</h2>
+
+      <ul id="dish-list">
+        <li>Loading dishes...</li>
+      </ul>
+
+      <p id="message"></p>
+
+      <h2>Add New Dish</h2>
+
+      <form id="add-form">
+        <input type="text" id="name" placeholder="Enter dish name" required />
+
+        <input
+          type="number"
+          id="price"
+          placeholder="Enter price"
+          step="0.01"
+          min="0.01"
+          required
+        />
+
+        <button type="submit">Add Dish</button>
+      </form>
+    </div>
+
+    <script>
+      const GRAPHQL_URL = "http://localhost:4000/";
+
+      // Load all dishes
+      async function loadDishes() {
+        const dishList = document.getElementById("dish-list");
+        const message = document.getElementById("message");
+
+        try {
+          const response = await fetch(GRAPHQL_URL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              query: `
+                            query {
+                                dishes {
+                                    id
+                                    name
+                                    price
+                                    available
+                                }
+                            }
+                        `,
+            }),
+          });
+
+          const result = await response.json();
+
+          if (!response.ok || result.errors) {
+            throw new Error(
+              result.errors?.[0]?.message || "Failed to load dishes",
+            );
+          }
+
+          const dishes = result.data.dishes;
+
+          dishList.innerHTML = "";
+
+          if (dishes.length === 0) {
+            dishList.innerHTML = "<li>No dishes available.</li>";
+            return;
+          }
+
+          dishes.forEach((dish) => {
+            const li = document.createElement("li");
+
+            li.innerHTML = `
+    <div class="dish-info">
+        <strong>${escapeHTML(dish.name)}</strong>
+        <span class="price">
+            ₹${Number(dish.price).toFixed(2)}
+        </span>
+    </div>
+
+    <span class="status ${dish.available ? "available" : "unavailable"}">
+        ${dish.available ? "Available" : "Out of Stock"}
+    </span>
+`;
+
+            dishList.appendChild(li);
+          });
+
+          message.textContent = "";
+        } catch (error) {
+          dishList.innerHTML = "<li>Unable to load dishes.</li>";
+          message.textContent = error.message;
+        }
+      }
+
+      // Prevent HTML injection in dish names
+      function escapeHTML(value) {
+        return String(value).replace(
+          /[&<>"']/g,
+          (char) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#039;",
+            })[char],
+        );
+      }
+
+      // Add a new dish
+      document
+        .getElementById("add-form")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const name = document.getElementById("name").value.trim();
+
+          const price = parseFloat(document.getElementById("price").value);
+
+          const message = document.getElementById("message");
+
+          if (!name || !Number.isFinite(price) || price <= 0) {
+            message.textContent = "Please enter a valid dish name and price.";
+            return;
+          }
+
+          try {
+            const response = await fetch(GRAPHQL_URL, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                query: `
+                                mutation AddDish($input: AddDishInput!) {
+                                    addDish(input: $input) {
+                                        id
+                                        name
+                                        price
+                                        available
+                                    }
+                                }
+                            `,
+
+                variables: {
+                  input: {
+                    name: name,
+                    price: price,
+                    available: true,
+                  },
+                },
+              }),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok || result.errors) {
+              throw new Error(
+                result.errors?.[0]?.message || "Failed to add dish",
+              );
+            }
+
+            message.textContent = "Dish added successfully!";
+            message.className = "success";
+
+            document.getElementById("add-form").reset();
+
+            await loadDishes();
+          } catch (error) {
+            message.textContent = error.message;
+            message.className = "error";
+          }
+        });
+
+      // Initial loading
+      loadDishes();
+    </script>
+  </body>
+</html>
